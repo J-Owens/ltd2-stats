@@ -4,7 +4,6 @@ import requests
 
 # API endpoint URL
 api_url = 'https://apiv2.legiontd2.com/games'
-API_KEY = 'vLeBGVkpSH3QAR5M0YVJp8ctyV9Psa4x4Vn0JiYq'
 
 # Directory to store the JSON files
 data_directory = 'data/match_data'
