@@ -32,7 +32,7 @@ def most_used_units_by_legion(match_files):
         print(f"{legion} most used units:")
         sorted_units = sorted(unit_counts.items(), key=lambda x: x[1], reverse=True)
         total_units = legion_total_units[legion]
-        for unit_id, count in sorted_units[:5]:
+        for unit_id, count in sorted_units:
             percentage = count / total_units * 100
             print(f"{unit_id}: {count} ({percentage:.2f}%)")
         print()

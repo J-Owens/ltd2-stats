@@ -4,7 +4,7 @@ import requests
 
 # API endpoint URL
 api_url = 'https://apiv2.legiontd2.com/games'
-API_KEY = os.environ["LEGION_API_KEY"]
+API_KEY = 'vLeBGVkpSH3QAR5M0YVJp8ctyV9Psa4x4Vn0JiYq'
 
 # Directory to store the JSON files
 data_directory = 'data/match_data'
@@ -16,7 +16,7 @@ def match_exists(match_id):
 
 def fetch_and_store_matches():
     offset = 0
-    limit = 5000
+    limit = 10000
     
     while True:
         params = {

@@ -2,3 +2,5 @@ requests
 matplotlib
 scikit-learn
 mlxtend
+plotly
+streamlit
