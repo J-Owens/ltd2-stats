@@ -2,6 +2,9 @@ import streamlit as st
 import json
 import os
 import plotly.express as px
+import plotly.graph_objects as go
+
+from utils import get_unit_icon_url, get_unit_image
 
 st.set_page_config(page_title="Champion Units", layout="wide")
 
@@ -93,18 +96,41 @@ def champion_spell_units_winrate(match_files):
     unit_names = [unit[0] for unit in sorted_units]
     winrates = [unit[1][0] for unit in sorted_units]
     total_games = [unit[1][1] for unit in sorted_units]
+    unit_icon_urls = [get_unit_icon_url(unit_id) for unit_id in unit_names]
+    
+    fig = go.Figure(data=[go.Bar(x=winrates, y=unit_names, orientation='h')])
 
-    # Create a horizontal bar chart using Plotly Express
-    chart_data = {'Unit Name': unit_names, 'Winrate': winrates, 'Total Games': total_games}
-    chart = px.bar(chart_data, x='Winrate', y='Unit Name', orientation='h',
-                   title='Champion Chosen Unit Winrates (Minimum 25 samples)', hover_data=['Total Games'])
+    # Add unit icons to the left of the bars
+    for i, url in enumerate(unit_icon_urls):
+        img = get_unit_image(url)
+        fig.add_layout_image(
+            dict(
+                source=img,
+                xref="paper", yref="y",
+                x=0, y=i,
+                sizex=0.1, sizey=0.8,
+                xanchor="right", yanchor="middle"
+            )
+        )
 
-    num_units = len(unit_names)
-    chart_height = num_units * 20  # Adjust the multiplier as needed
-    chart.update_layout(width=800, height=chart_height)
+    height = len(unit_names) * 20
+    if (height < 1200):
+        height = 1200
+    
+    fig.update_layout(
+        title=f"Champion Unit Winrates",
+        xaxis_title="Winrate",
+        yaxis_title="Unit ID",
+        height=height,
+        margin=dict(l=50, r=20, t=40, b=20),  # Adjust the left margin and other margins
+        yaxis=dict(
+                    automargin=True,
+                    ticksuffix="        "  # Add padding to the labels
+                )
+    )
 
     # Display the chart using Streamlit
-    st.plotly_chart(chart)
+    st.plotly_chart(fig)
 
 
 # Specify the directory where the match files are located
